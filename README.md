@@ -90,6 +90,3 @@ The form to create a new session uses the HTML input type "datetime-local", whic
 
 ## Various details
 Some of the visual elements on the page have formatting that's slightly off in a way that bugs me, which I won't point out because as soon as you notice it, it will start to bug you too, and you won't be able to notice anything else.
-
-# "3 hours"
-I had a lot of stuff to do this weekend, which is why I am writing this README on Sunday night. I did not keep rigorous track of how many hours I was spending on which task today, but I estimate that the aggregate time spent coding was somewhere between three and five hours.

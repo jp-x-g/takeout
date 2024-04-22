@@ -85,10 +85,6 @@ router.get('/', (req, res) => {
           //   'rating-2024-05-11 12:30': '1',
           //   'notes-2024-05-11 12:30': 'No interest in the lyre whatsoever.'
           // }
-          // TODO: parse out each 'rating' and 'notes', and their respective timestamps
-          // then try to find the entry in slots WHERE timestamp = the timestamp AND coachid = 3
-          // then upsert the entries with the new rating (in field 'score') and notes (as field 'note').
-          // and the entry's new 'status' field is 2
 
           for (const key in req.query) {
             try {
@@ -194,52 +190,3 @@ router.get('/', (req, res) => {
 }); // this is the route
 
 module.exports = router;
-
-/* 
-var express = require('express');
-var router = express.Router();
-var sqlite3 = require('sqlite3').verbose();
-
-function getDb() {
-  return new sqlite3.Database('./data/db.sqlite', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) console.error(err.message);
-  });
-}
-
-// Route to display dropdown of ACTIVE coaches or a specific coach's dashboard
-router.get('/', (req, res) => {
-  const db = getDb();
-  if (req.query.coachid) {
-    // Show detailed coach dashboard with slots if a coach ID is specified
-    const coachId = req.query.coachid;
-    db.serialize(() => {
-      db.all(`SELECT * FROM coaches WHERE id = ? AND status='ACTIVE'`, [coachId], (err, coach) => {
-        if (err) {
-          res.status(500).send('Database error fetching coach details -- check that you\'ve selected a valid ID!');
-          return;
-        }
-
-        // Fetch slots for the coach
-        db.all(`SELECT * FROM slots WHERE coachid = ? AND (timestamp >= datetime('now') AND (status = 0 OR status = 1))`, [coachId], (err, slots) => {
-          if (err) {
-            // Error-handling, if necessary, although the template should be able to handle a blank array
-          }
-          // res.render('coaches', { coach: coach[0], slots: slots });
-          db.all(`SELECT name, id FROM coaches WHERE status = "ACTIVE"`, [], (err, coaches) => {
-            if (err) {
-              res.status(500).send('Database error');
-              return;
-            }
-          }); // db query to get list of coaches
-        }); // db query to get list of slots
-      }); // db query to get details for current coach from URL params
-    }); // if there's a coach ID supplied at all in the URL params
-  } else {
-    // Initial page to select a coach
-  res.render('coaches', { coaches: coaches });
-  }
-  db.close();
-});
-
-module.exports = router;
-*/
