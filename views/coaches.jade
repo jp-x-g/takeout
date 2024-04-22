@@ -1,0 +1,138 @@
+
+extends layout
+
+block content
+
+  a(href="/")
+    button(class="mw-ui-button mw-ui-progressive" type="submit" value="Back to home page" style="margin: 10px;") Back to home
+
+  
+  - var statusPrint = ["Open", "Pending", "Finished", "Cancelled", "Absent", "Was never booked", "Other"]
+  if coaches
+    if coaches.length
+      #startistform(style="text-align: center;")
+        form(action="/coaches")
+          label(for="coaches" style="font-size: 1.2em;") Select coach:
+          br
+          select(name="coachid" id="coachid" style="font-size: 1.5em; display: inline;")
+            each coach in coaches
+              option(value=coach.cid) #{coach.cname}
+          input(class="mw-ui-button mw-ui-progressive mw-ui-big" type="submit" value="Log in" style="margin: 10px;")
+  else
+    // p No coaches found.
+    if coach
+      #startistform(style="max-width:90%; margin: 0 auto;")
+        if message
+          div(style="width:100%; text-align: center; ")
+            if message == "added"
+              div(style="background: #FFCCFF; text-align: center; max-width: 30em; float: center; margin: 0 auto;") Opening added successfully!
+                br
+            if message == "updated"
+              div(style="background: #FFFFCC; text-align: center; max-width: 30em; float: center; margin: 0 auto;") Meeting(s) updated successfully!
+                br
+            if message == "parseerror"
+              div(style="background: #FFCCCC; text-align: center; max-width: 30em; float: center; margin: 0 auto;") Error: could not perform task.
+                br
+            br
+            br
+        div(style="text-align:center;")
+            span(style="font-size: 1.2em;") Logged in as:
+            br
+            br
+            span(style="font-size: 1.5em; display: inline;") #{coach.cname}
+            a(href="/coaches")
+              div(class="mw-ui-button mw-ui-progressive mw-ui-big" style="margin: 15px; border: 4px; padding:4px; display: inline;") Log out
+            br
+            br
+        fieldset()
+          legend() Past meetings (<b>#{pastSlots.length}</b>)
+          details()
+            summary(style="opacity: 60%;") (click to expand/collapse)
+            if pastSlots && pastSlots.length > 0
+              form(method="GET", action="/coaches")
+                input(type="hidden" name="coachid" value="#{coach.cid}")
+                input(type="hidden" name="action" value="rate")
+                table
+                  tr
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Time
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Student
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Status
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Score
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left; width: 20em;") Notes
+                  each slot in pastSlots
+                    tr
+                      td(style="font-family: monospace;") #{slot.timestamp}
+                      td() #{slot.sname}
+                      td() #{statusPrint[slot.status]}
+                      td() #{slot.score}
+                      td() #{slot.note}
+        fieldset()
+          - var unbookedCount = upcomingSlots.filter(slot => slot.status === 0).length
+          - var bookedCount = upcomingSlots.filter(slot => slot.status === 1).length
+          legend() Upcoming meetings: <b>#{upcomingSlots.length}</b> (<b>#{unbookedCount}</b> 
+            span(style='background-color: #CCFFCC;') open
+            span() · <b>#{bookedCount}</b> 
+            span(style='background-color: #CCFFFF;') booked
+            span() )
+          details()
+            summary(style="opacity: 60%;") (click to expand/collapse)
+            if upcomingSlots && upcomingSlots.length > 0
+              table
+                tr
+                  th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Time
+                  th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Student
+                  th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Phone #
+                each slot in upcomingSlots
+                  tr(style=(slot.status === 1 ? 'background-color: #CCFFFF;' : 'background-color: #CCFFCC'))
+                    td(style="font-family: monospace;") #{slot.timestamp}
+                    td() #{slot.sname}
+                    td() #{slot.sphone}
+        fieldset()
+          legend() Meetings requiring writeups (<b>#{actionNeededSlots.length}</b>)
+          details()
+            summary(style="opacity: 60%;") (click to expand/collapse)
+            if actionNeededSlots && actionNeededSlots.length > 0
+              form(method="GET", action="/coaches")
+                input(type="hidden" name="coachid" value="#{coach.cid}")
+                input(type="hidden" name="action" value="rate")
+                table
+                  tr
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Time
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Student
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Status
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left;") Score (1-5)
+                    th(style="font-family: monospace; border-collapse: collapse; border: 0; text-align: left; width: 20em;") Notes
+                  each slot in actionNeededSlots
+                    tr
+                      td(style="font-family: monospace;") #{slot.timestamp}
+                      td() #{slot.sname}
+                      td() #{statusPrint[slot.status]}
+                      td()
+                        input(id="rating-#{slot.timestamp}" name="rating-#{slot.timestamp}" type="number" min="1" max="5" step="1" value="3" style="max-width: 3em;")
+                      td()
+                        input(id="notes-#{slot.timestamp}" name="notes-#{slot.timestamp}" placeholder="Notes")
+                div(style="margin: 0 auto; text-align: center;")
+                  input(class="mw-ui-button mw-ui-progressive mw-ui-big" type="submit" value="Submit writeups" style="margin: 10px; float: center; display: inline;") 
+        
+        form(method="GET", action="/coaches")
+          fieldset()
+            legend() Add new meeting slot
+            input(type="hidden" name="coachid" value="#{coach.cid}")
+            input(type="hidden" name="action" value="add")
+            - var date      = new Date();
+            - var today     = date.toISOString();
+            - date.setDate(date.getDate() - 1);
+            - var yesterday = date.toISOString();
+            //span() #{today}
+            //1969-12-31T01:02:03.456Z
+            //         1111111
+            //1234567890123456
+            div(style="margin: 0 auto; text-align: center;")
+              input(id="newslotTime" name="newslotTime" type="datetime-local" min="#{yesterday.substring(0,16)}" value="#{today.substring(0,16)}" style="display:inline;")
+              input(class="mw-ui-button mw-ui-progressive mw-ui-big" type="submit" value="Add availability" style="margin: 15px; float: center; display: inline;") 
+
+              // fallback -- MDN says that some browsers do not support datetime-local properly, so if this is an issue we can use separate inputs for date and time
+              //input(id="newslotTimeDate" type="date" min="#{yesterday.split('T')[0]}" value="#{today.split('T')[0]}")
+              //input(id="newslotTimeHour" type="number" min="00" max="23" step="1" value="13" style="display:inline; max-width:3em;")
+              //span(style="font-size: 1.8em;") :
+              //input(id="newslotTimeMinu" type="number" min="00" max="23" step="1" value="59" style="display:inline; max-width:3em;")
