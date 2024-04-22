@@ -2,8 +2,10 @@ This is a very simple app that does everything in the spec, and a few additional
 
 To use this, and to first prepare it by filling it with dummy data:
 
-```rm data/db.sqlite
-DEBUG=myapp:* npm start```
+```
+rm data/db.sqlite
+DEBUG=myapp:* npm start
+```
 
 ## Layout
 The frontend of this app was written using a combination of CSS and HTML, with pages generated using the Jade/Pug templating engine.
