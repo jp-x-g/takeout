@@ -78,7 +78,7 @@ The user experience of this app, from simply implementing what the spec said, le
 It is somewhat difficult to distinguish dates from looking at them, versus having a calendar widget (especially when trying to book sessions). This would be an improvement.
 ### Data entry as timewaster for coaches
 Adding an availablility requires coaches to open the dashboard and manually select the slot using the date picker, then click to add it, then wait for the page to reload. This isn't that hard to do once or twice, but if a coach works every weekday, and has several available slots, adding them will be a daily task. If this takes six minutes a day, that's thirty minutes a week, which is two hours a month; with ten coaches this is twenty hours a month, every month, of people's time being wasted on pointless busywork. There should be an option for them to articulate to the computer, for example, "I am available every Tuesday at 10am".
-###URL parameters
+### URL parameters
 Passing text fields (especially notes) into the app through URL parameters is just bad: it turns URLs into giant monsters that can't be used for anything (and might contain confidential information). It also means that refreshing the page, in most cases, will resend whatever action you were trying to take. This is bad.
 ### Error messages
 They aren't very good. Not much more to say about that.
@@ -92,4 +92,4 @@ The form to create a new session uses the HTML input type "datetime-local", whic
 Some of the visual elements on the page have formatting that's slightly off in a way that bugs me, which I won't point out because as soon as you notice it, it will start to bug you too, and you won't be able to notice anything else.
 
 # "3 hours"
-I had a lot of errands to run on Friday, and some friends came over on Saturday, so I didn't get around to this until Sunday. Moreover, it was a nice day, and I kept taking long breaks to go hike, so I did not really keep track of how much time I spent writing code (even that was not a strict dichotomy, because sometimes while hiking I would think about database schemas, and sometimes while at the computer I would start reading about trees). The total aggregate amount of time I spent writing code was probably somewhere between 2.5 and 5 hours (I also hiked 6.3 miles, turned two table legs on my lathe, swept ten square feet of my porch, and won two ranked matches in Mindustry PvP).
+I had a lot of stuff to do this weekend, which is why I am writing this README on Sunday night. I did not keep rigorous track of how many hours I was spending on which task today, but I estimate that the aggregate time spent coding was somewhere between three and five hours.
