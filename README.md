@@ -11,25 +11,25 @@ DEBUG=myapp:* npm start
 The frontend of this app was written using a combination of CSS and HTML, with pages generated using the Jade/Pug templating engine.
 
 The backend is written in Express; it communicates downward with the database (implemented using SQLite) and upwards with the Jade templates to serve data to users in response to queries.
-// "express", "pug", "sqlite" etc should be linked
+
 The flow of interacting with the software consists of two main "dashboard" pages, one for students and one for coaches, that can both be reached from the landing page of the app. Features are as follows:
 
-##Coaches
-Past sessions (lists times, student names, scores, and notes)
-Upcoming sessions (including booked and open, which are shown in different colors
+##  Coaches
+#### Past sessions (lists times, student names, scores, and notes)
+#### Upcoming sessions (including booked and open, which are shown in different colors
 - Phone numbers are given for students who have booked sessions.
-Pending sessions (those which have elapsed, but have not been given assessments yet)
+#### Pending sessions (those which have elapsed, but have not been given assessments yet)
 - This section includes a form where coaches can give ratings and notes, and submit them to the database.
-Dialog to create an open session
+#### Dialog to create an open session
 - This includes a date and time picking dialog that uses a calendar
 
 ## Students
-Past sessions (lists times, coach names, scores, and notes)
-Upcoming sessions
+#### Past sessions (lists times, coach names, scores, and notes)
+#### Upcoming sessions
 - Phone numbers are given for coaches who have booked sessions.
-Pending sessions
+#### Pending sessions
 - There are no interactive elements here, but it provides information on which sessions have taken place (rather than having them drop into a black hole between the time they elapse and the time they're available in the past-sessions record)
-Dialog to book session
+#### Dialog to book session
 - This shows all sessions that occur in the future and are open to be booked. Students can book one session at a time (using radio buttons) -- there is no limit to how many they can book total.
 
 ## Database
@@ -80,7 +80,7 @@ It is somewhat difficult to distinguish dates from looking at them, versus havin
 Adding an availablility requires coaches to open the dashboard and manually select the slot using the date picker, then click to add it, then wait for the page to reload. This isn't that hard to do once or twice, but if a coach works every weekday, and has several available slots, adding them will be a daily task. If this takes six minutes a day, that's thirty minutes a week, which is two hours a month; with ten coaches this is twenty hours a month, every month, of people's time being wasted on pointless busywork. There should be an option for them to articulate to the computer, for example, "I am available every Tuesday at 10am".
 ###URL parameters
 Passing text fields (especially notes) into the app through URL parameters is just bad: it turns URLs into giant monsters that can't be used for anything (and might contain confidential information). It also means that refreshing the page, in most cases, will resend whatever action you were trying to take. This is bad.
-###Error messages
+### Error messages
 They aren't very good. Not much more to say about that.
 
 ## Accessibility
